@@ -14,11 +14,11 @@ class CopyablePolymorphic
         
         mCopyFunction = [] (const std::unique_ptr<BaseType>& needToCopy)
         {
-            const DerivedType* downCasted = dynamic_cast<DerivedType*>(&*needToCopy);
-            return std::make_unique<DerivedType>(*downCasted); //uses the normal copy mechanics of the DerivedType class
+            const auto originalPtr = static_cast<DerivedType*>(needToCopy.get());
+            return std::unique_ptr<BaseType>(new DerivedType(*originalPtr)); //uses the normal copy mechanics of the DerivedType class
         };
 
-        mValue = std::make_unique<DerivedType>(need);
+        mValue.reset(new DerivedType(need));
     }
 
     CopyablePolymorphic(const CopyablePolymorphic& other)
@@ -56,6 +56,27 @@ class CopyablePolymorphic
     {
         return *mValue;
     }
+
+    const BaseType& operator*() const
+    {
+        return *mValue;
+    }
+
+    BaseType& operator*()
+    {
+        return *mValue;
+    }
+
+    const BaseType* operator->() const
+    {
+        return mValue.get();
+    }
+
+    BaseType* operator->()
+    {
+        return mValue.get();
+    }
+
     
     private:
     std::function<std::unique_ptr<BaseType>(const std::unique_ptr<BaseType>&)> mCopyFunction;
