@@ -1,6 +1,8 @@
 #include <memory>
 #include <functional>
 
+namespace th
+{
 template<typename BaseType>
 class CopyablePolymorphic
 {
@@ -45,6 +47,11 @@ class CopyablePolymorphic
         return *this;
     }
 
+    const BaseType& get() const
+    {
+        return *mValue;
+    }
+
     BaseType& get()
     {
         return *mValue;
@@ -54,3 +61,4 @@ class CopyablePolymorphic
     std::function<std::unique_ptr<BaseType>(const std::unique_ptr<BaseType>&)> mCopyFunction;
     std::unique_ptr<BaseType> mValue;
 };
+}
