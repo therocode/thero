@@ -47,16 +47,6 @@ class CopyablePolymorphic
         return *this;
     }
 
-    const BaseType& get() const
-    {
-        return *mValue;
-    }
-
-    BaseType& get()
-    {
-        return *mValue;
-    }
-
     const BaseType& operator*() const
     {
         return *mValue;
@@ -77,7 +67,6 @@ class CopyablePolymorphic
         return mValue.get();
     }
 
-    
     private:
     std::function<std::unique_ptr<BaseType>(const std::unique_ptr<BaseType>&)> mCopyFunction;
     std::unique_ptr<BaseType> mValue;
