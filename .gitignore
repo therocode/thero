@@ -1,0 +1,15 @@
+*.swp
+*.swo
+*~
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+TryRunResults.cmake
+Makefile
+*.a
+*.so
+*.pc
+bin
+lib
+doxy/gen/
+install_manifest.txt
