@@ -3,6 +3,8 @@ Headers only utility collection for modern C++
 
 ## Contents
 
+The utilities provided follow no particular theme but is more a collection of very reusable components that I have found the need for more than once. Maybe some of them will be of use to others too.
+
 ### General
 
 * [TH_ASSERT](https://github.com/therocode/thero/wiki/TH_ASSERT) - A handy assert macro which shows line/function/file of the assertion with a custom message, as well as ensures that gdb breaks on it instead of just quitting
@@ -11,6 +13,10 @@ Headers only utility collection for modern C++
 
 * [CopyablePolymorphic](https://github.com/therocode/thero/wiki/CopyablePolymorphic) - A wrapper to store a polymorphic object as a base type in a way that ensures proper copy-mechanics
 * [ModuleSet](https://github.com/therocode/thero/wiki/ModuleSet) - A way to store polymorphic modules in a way that ensures that it is easy to access the separate instances too
+
+### Random
+
+* [RandomSelector](https://github.com/therocode/thero/wiki/RandomSelector) - A templated container for a set of values. On access, a random value is selected based on uniform distribution by default. Weights to skew the item representation can be added.
 
 ## Installation
 
