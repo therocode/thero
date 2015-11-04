@@ -42,14 +42,14 @@ class RandomSelector
 
         const Type& get() const
         {
-            FEA_ASSERT(!mItems.empty(), "Trying to use a RandomSelector object with no items to select from");
+            TH_ASSERT(!mItems.empty(), "Trying to use a RandomSelector object with no items to select from");
 
             return retreiveRandomItemIterator()->first;
         }
 
         Type pop()
         {
-            FEA_ASSERT(!mItems.empty(), "Trying to pop a RandomSelector object with no items to select from");
+            TH_ASSERT(!mItems.empty(), "Trying to pop a RandomSelector object with no items to select from");
 
             auto valueIterator = retreiveRandomItemIterator();
             Type toReturn = valueIterator->first;
@@ -60,7 +60,7 @@ class RandomSelector
 
         void add(Type value, float weight = 1.0f)
         {
-            FEA_ASSERT(weight >= 0.0f, "Cannot give a negative weight");
+            TH_ASSERT(weight >= 0.0f, "Cannot give a negative weight");
             mItems.push_back({std::move(value), weight});
             calculateTotalWeight();
         }
@@ -90,7 +90,7 @@ class RandomSelector
 
             for(const auto& item : mItems)
             {
-                FEA_ASSERT(item.second >= 0.0f, "Cannot give a negative weight");
+                TH_ASSERT(item.second >= 0.0f, "Cannot give a negative weight");
                 weightSum += item.second;
             }
 
@@ -109,7 +109,7 @@ class RandomSelector
                     return iter;
             }
 
-            FEA_ASSERT(false, "Somehow, no value was picked. This is a bug in RandomSelector");
+            TH_ASSERT(false, "Somehow, no value was picked. This is a bug in RandomSelector");
             return mItems.cbegin(); //this is here to make the compiler not complain, it is never meant to run
         }
 
