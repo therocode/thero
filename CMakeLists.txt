@@ -20,6 +20,7 @@ set(thero_header_files
     include/thero/copyablepolymmorphic.hpp
     include/thero/moduleset.hpp
     include/thero/randomselector.hpp
+    include/thero/variant.hpp
 )
 
 install(
