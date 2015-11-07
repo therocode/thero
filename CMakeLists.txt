@@ -19,6 +19,7 @@ set(thero_header_files
     include/thero/assert.hpp
     include/thero/copyablepolymmorphic.hpp
     include/thero/moduleset.hpp
+    include/thero/optional.hpp
     include/thero/randomselector.hpp
     include/thero/variant.hpp
 )

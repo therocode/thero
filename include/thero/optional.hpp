@@ -22,9 +22,9 @@ class Optional
             mValue = std::make_shared<Type>(std::move(value));
         }
 
-        operator bool()
+        operator bool() const
         {
-            return mValue != nullptr;
+            return static_cast<bool>(mValue);
         }
 
         const Type& operator*() const
@@ -54,6 +54,15 @@ class Optional
         bool isNull()
         {
             return !*this;
+        }
+
+        template <typename InValue>
+        Type valueOr(InValue&& in) const
+        {
+            if(*this)
+                return **this;
+            else
+                return in;
         }
 
     private:
