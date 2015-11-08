@@ -1,3 +1,4 @@
+#pragma once
 #include <thero/assert.hpp>
 #include <memory>
 
@@ -63,6 +64,17 @@ class Optional
                 return **this;
             else
                 return in;
+        }
+
+        template<typename ...Args>
+        void set(Args&& ...arguments)
+        {
+            mValue = std::make_shared<Type>(std::move(arguments...));
+        }
+
+        void set(Type&& value)
+        {
+            mValue = std::make_shared<Type>(std::move(value));
         }
 
     private:
