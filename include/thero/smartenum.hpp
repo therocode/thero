@@ -109,7 +109,7 @@ namespace thero
         return Type##_enum_names.at((int32_t)value);\
     } \
     \
-    std::ostream& operator<<(std::ostream& outStream, Type value)\
+    inline std::ostream& operator<<(std::ostream& outStream, Type value)\
     {\
         outStream << to_string(value);\
         return outStream;\
