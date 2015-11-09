@@ -21,6 +21,7 @@ set(thero_header_files
     include/thero/moduleset.hpp
     include/thero/optional.hpp
     include/thero/randomselector.hpp
+    include/thero/smartenum.hpp
     include/thero/variant.hpp
 )
 
