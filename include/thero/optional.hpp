@@ -67,14 +67,19 @@ class Optional
         }
 
         template<typename ...Args>
-        void set(Args&& ...arguments)
+        void reset(Args&& ...arguments)
         {
             mValue = std::make_shared<Type>(std::move(arguments...));
         }
 
-        void set(Type&& value)
+        void reset(Type&& value)
         {
             mValue = std::make_shared<Type>(std::move(value));
+        }
+
+        void reset()
+        {
+            mValue.reset();
         }
 
     private:
