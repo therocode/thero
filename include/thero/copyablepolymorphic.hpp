@@ -9,17 +9,17 @@ class CopyablePolymorphic
 {
     public:
     template<typename DerivedType>
-    CopyablePolymorphic(const DerivedType& need)
+    CopyablePolymorphic(const DerivedType& derived)
     {
         static_assert(std::is_base_of<BaseType, DerivedType>::value, "Can only be constructed from types that inherit BaseType");
         
-        mCopyFunction = [] (const std::unique_ptr<BaseType>& needToCopy)
+        mCopyFunction = [] (const std::unique_ptr<BaseType>& derivedToCopy)
         {
-            const auto originalPtr = static_cast<DerivedType*>(needToCopy.get());
+            const auto originalPtr = static_cast<DerivedType*>(derivedToCopy.get());
             return std::unique_ptr<BaseType>(new DerivedType(*originalPtr)); //uses the normal copy mechanics of the DerivedType class
         };
 
-        mValue.reset(new DerivedType(need));
+        mValue.reset(new DerivedType(derived));
     }
 
     CopyablePolymorphic(const CopyablePolymorphic& other)
