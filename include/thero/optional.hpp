@@ -23,7 +23,45 @@ class Optional
             mValue = std::make_shared<Type>(std::move(value));
         }
 
-        operator bool() const
+        Optional(const Optional& other)
+        {
+            if(other.mValue)
+                mValue = std::make_shared<Type>(*other.mValue);
+        }
+
+        Optional(Optional& other):
+            Optional(static_cast<const Optional&>(other))
+        {
+        }
+
+        Optional(Optional&& other)
+        {
+            mValue = other.mValue;
+            other.mValue = nullptr;
+        }
+
+        Optional& operator=(const Optional& other)
+        {
+            if(other.mValue)
+                mValue = std::make_shared<Type>(*other.mValue);
+
+            return *this;
+        }
+
+        Optional& operator=(Optional& other)
+        {
+            return *this = static_cast<const Optional&>(other);
+        }
+
+        Optional& operator=(Optional&& other)
+        {
+            mValue = other.mValue;
+            other.mValue = nullptr;
+
+            return *this;
+        }
+
+        explicit operator bool() const
         {
             return static_cast<bool>(mValue);
         }
