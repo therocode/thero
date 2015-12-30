@@ -6,15 +6,15 @@
 
 namespace th
 {
-    class Variant
+    class Any
     {
         public:
-            Variant():
+            Any():
                 mStoredType(typeid(void))
             {
                 clear();
             }
-            Variant(Variant&& other):
+            Any(Any&& other):
                 mStoredType(typeid(void))
             {
                 std::swap(other.mStoredData, mStoredData);
@@ -22,7 +22,7 @@ namespace th
                 std::swap(mCopyFunction, other.mCopyFunction);
             }
 
-            Variant& operator=(Variant&& other)
+            Any& operator=(Any&& other)
             {
                 std::swap(mStoredData, other.mStoredData);
                 std::swap(mStoredType, other.mStoredType);
@@ -31,14 +31,14 @@ namespace th
                 return *this;
             }
 
-            Variant(const Variant& other):
+            Any(const Any& other):
                 mStoredType(other.mStoredType)
             {
                 mStoredData = other.mCopyFunction(other.mStoredData);
                 mCopyFunction = other.mCopyFunction;
             }
 
-            Variant& operator=(const Variant& other)
+            Any& operator=(const Any& other)
             {
                 mStoredType = other.mStoredType;
                 mStoredData = other.mCopyFunction(other.mStoredData);
@@ -47,7 +47,7 @@ namespace th
             }
 
             template<typename Type>
-            Variant(Type data) :
+            Any(Type data) :
                 mStoredType(typeid(data))
             {
                 mStoredData = std::static_pointer_cast<void>(std::make_shared<Type>(std::move(data)));
@@ -63,8 +63,8 @@ namespace th
             template<typename Type>
             Type& get()
             {
-                TH_ASSERT(mStoredType == typeid(Type), "Trying to get variant as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
-                TH_ASSERT(mStoredData != nullptr, "Trying to get uninitialised variant");
+                TH_ASSERT(mStoredType == typeid(Type), "Trying to get Any as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
+                TH_ASSERT(mStoredData != nullptr, "Trying to get uninitialised Any");
             
                 return *std::static_pointer_cast<Type>(mStoredData);
             }
@@ -72,8 +72,8 @@ namespace th
             template<typename Type>
             const Type& get() const
             {
-                TH_ASSERT(mStoredType == typeid(Type), "Trying to get variant as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
-                TH_ASSERT(mStoredData != nullptr, "Trying to set uninitialised variant");
+                TH_ASSERT(mStoredType == typeid(Type), "Trying to get Any as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
+                TH_ASSERT(mStoredData != nullptr, "Trying to set uninitialised Any");
             
                 return *std::static_pointer_cast<Type>(mStoredData);
             }
@@ -81,7 +81,7 @@ namespace th
             template<typename Type>
             void set(const Type& data)
             {
-                TH_ASSERT(mStoredType == typeid(Type), "Trying to set variant as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
+                TH_ASSERT(mStoredType == typeid(Type), "Trying to set Any as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
             
                 *std::static_pointer_cast<Type>(mStoredData) = data;
             }
@@ -100,7 +100,7 @@ namespace th
                 return mStoredType == typeid(Type);
             }
 
-            bool isSameTypeAs(const Variant& other) const
+            bool isSameTypeAs(const Any& other) const
             {
                 return mStoredType == other.mStoredType;
             }

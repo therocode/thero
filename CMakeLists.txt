@@ -16,13 +16,13 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
 set(thero_header_files
+    include/thero/any.hpp
     include/thero/assert.hpp
     include/thero/copyablepolymmorphic.hpp
     include/thero/moduleset.hpp
     include/thero/optional.hpp
     include/thero/randomselector.hpp
     include/thero/smartenum.hpp
-    include/thero/variant.hpp
 )
 
 install(
