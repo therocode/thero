@@ -15,7 +15,7 @@ class Optional
         template<typename ...Args>
         Optional(Args&& ...arguments)
         {
-            mValue = std::make_shared<Type>(std::move(arguments...));
+            mValue = std::make_shared<Type>(arguments...);
         }
 
         Optional(Type&& value)
