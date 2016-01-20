@@ -67,7 +67,7 @@ class ModuleSet
                 return nullptr;
         }
     private:
-        std::unordered_map<std::type_index, CopyablePolymorphic<BaseClass>> mModules;
+        std::unordered_map<std::type_index, PolymorphicWrapper<BaseClass>> mModules;
 };
 }
 

@@ -5,11 +5,11 @@
 namespace th
 {
 template<typename BaseType>
-class CopyablePolymorphic
+class PolymorphicWrapper
 {
     public:
     template<typename DerivedType>
-    CopyablePolymorphic(const DerivedType& derived)
+    PolymorphicWrapper(const DerivedType& derived)
     {
         static_assert(std::is_base_of<BaseType, DerivedType>::value, "Can only be constructed from types that inherit BaseType");
         
@@ -22,26 +22,26 @@ class CopyablePolymorphic
         mValue.reset(new DerivedType(derived));
     }
 
-    CopyablePolymorphic(const CopyablePolymorphic& other)
+    PolymorphicWrapper(const PolymorphicWrapper& other)
     {
         mCopyFunction = other.mCopyFunction;
         mValue = mCopyFunction(other.mValue); //uses stored lambda to copy
     }
 
-    CopyablePolymorphic(CopyablePolymorphic&& other)
+    PolymorphicWrapper(PolymorphicWrapper&& other)
     {
         mCopyFunction = other.mCopyFunction;
         mValue = std::move(other.mValue);
     }
 
-    CopyablePolymorphic& operator=(const CopyablePolymorphic& other)
+    PolymorphicWrapper& operator=(const PolymorphicWrapper& other)
     {
         mCopyFunction = other.mCopyFunction;
         mValue = mCopyFunction(other.mValue); //uses stored lambda to copy
         return *this;
     }
 
-    CopyablePolymorphic& operator=(CopyablePolymorphic&& other)
+    PolymorphicWrapper& operator=(PolymorphicWrapper&& other)
     {
         mCopyFunction = other.mCopyFunction;
         mValue = std::move(other.mValue);
