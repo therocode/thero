@@ -70,7 +70,7 @@ class PolymorphicWrapper
     }
 
     private:
-    std::function<std::unique_ptr<BaseType>(const std::unique_ptr<BaseType>&)> mCopyFunction;
+    std::unique_ptr<BaseType> (*mCopyFunction)(const std::unique_ptr<BaseType>&);
     std::unique_ptr<BaseType> mValue;
 };
 }
