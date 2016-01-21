@@ -9,7 +9,7 @@ class PolymorphicWrapper
 {
     public:
     template<typename DerivedType>
-    PolymorphicWrapper(const DerivedType& derived)
+    PolymorphicWrapper(DerivedType&& derived)
     {
         static_assert(std::is_base_of<BaseType, DerivedType>::value, "Can only be constructed from types that inherit BaseType");
         
