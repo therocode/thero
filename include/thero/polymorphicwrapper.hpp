@@ -11,15 +11,16 @@ class PolymorphicWrapper
     template<typename DerivedType>
     PolymorphicWrapper(DerivedType&& derived)
     {
-        static_assert(std::is_base_of<BaseType, DerivedType>::value, "Can only be constructed from types that inherit BaseType");
+        using DecayedType = typename std::decay<DerivedType>::type;
+        static_assert(std::is_base_of<BaseType, DecayedType>::value, "Can only be constructed from types that inherit BaseType");
         
         mCopyFunction = [] (const std::unique_ptr<BaseType>& derivedToCopy)
         {
-            const auto originalPtr = static_cast<DerivedType*>(derivedToCopy.get());
-            return std::unique_ptr<BaseType>(new DerivedType(*originalPtr)); //uses the normal copy mechanics of the DerivedType class
+            const auto originalPtr = static_cast<DecayedType*>(derivedToCopy.get());
+            return std::unique_ptr<BaseType>(new DecayedType(*originalPtr)); //uses the normal copy mechanics of the DecayedType class
         };
 
-        mValue.reset(new DerivedType(derived));
+        mValue.reset(new DecayedType(derived));
     }
 
     PolymorphicWrapper(const PolymorphicWrapper& other)
