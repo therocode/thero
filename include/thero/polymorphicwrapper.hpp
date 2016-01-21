@@ -20,7 +20,7 @@ class PolymorphicWrapper
             return std::unique_ptr<BaseType>(new DecayedType(*originalPtr)); //uses the normal copy mechanics of the DecayedType class
         };
 
-        mValue.reset(new DecayedType(derived));
+        mValue.reset(new DecayedType(std::forward<DerivedType>(derived)));
     }
 
     PolymorphicWrapper(const PolymorphicWrapper& other)
@@ -31,7 +31,7 @@ class PolymorphicWrapper
 
     PolymorphicWrapper(PolymorphicWrapper&& other)
     {
-        mCopyFunction = other.mCopyFunction;
+        mCopyFunction = std::move(other.mCopyFunction);
         mValue = std::move(other.mValue);
     }
 
