@@ -29,6 +29,11 @@ class PolymorphicWrapper
         mValue = mCopyFunction(other.mValue); //uses stored lambda to copy
     }
 
+    PolymorphicWrapper(PolymorphicWrapper& other):
+        PolymorphicWrapper(static_cast<const PolymorphicWrapper&>(other))
+    {
+    }
+
     PolymorphicWrapper(PolymorphicWrapper&& other)
     {
         mCopyFunction = std::move(other.mCopyFunction);
@@ -40,6 +45,11 @@ class PolymorphicWrapper
         mCopyFunction = other.mCopyFunction;
         mValue = mCopyFunction(other.mValue); //uses stored lambda to copy
         return *this;
+    }
+
+    PolymorphicWrapper& operator=(PolymorphicWrapper& other)
+    {
+        return static_cast<const PolymorphicWrapper&>(other);
     }
 
     PolymorphicWrapper& operator=(PolymorphicWrapper&& other)
