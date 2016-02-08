@@ -2,10 +2,21 @@
 #include <typeindex>
 #include <memory>
 #include <functional>
+#include <stdexcept>
 #include <thero/assert.hpp>
 
 namespace th
 {
+    class AnyTypeException : std::runtime_error
+    {
+        using std::runtime_error::runtime_error;
+    };
+
+    class AnyNullException : std::runtime_error
+    {
+        using std::runtime_error::runtime_error;
+    };
+
     class Any
     {
         public:
@@ -63,17 +74,21 @@ namespace th
             template<typename Type>
             Type& get()
             {
-                TH_ASSERT(mStoredType == typeid(Type), "Trying to get Any as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
-                TH_ASSERT(mStoredData != nullptr, "Trying to get uninitialised Any");
-            
+                if(mStoredType != typeid(Type))
+                    throw AnyTypeException("getting as invalid type" + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
+                if(mStoredData == nullptr)
+                    throw AnyNullException("trying to get value of uninitialised Any");
+
                 return *std::static_pointer_cast<Type>(mStoredData);
             }
 
             template<typename Type>
             const Type& get() const
             {
-                TH_ASSERT(mStoredType == typeid(Type), "Trying to get Any as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
-                TH_ASSERT(mStoredData != nullptr, "Trying to set uninitialised Any");
+                if(mStoredType != typeid(Type))
+                    throw AnyTypeException("getting as invalid type" + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
+                if(mStoredData == nullptr)
+                    throw AnyNullException("trying to get value of uninitialised Any");
             
                 return *std::static_pointer_cast<Type>(mStoredData);
             }
@@ -81,7 +96,8 @@ namespace th
             template<typename Type>
             void set(const Type& data)
             {
-                TH_ASSERT(mStoredType == typeid(Type), "Trying to set Any as the type " + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
+                if(mStoredType != typeid(Type))
+                    throw AnyTypeException("setting as invalid type" + std::string(typeid(Type).name()) + " when it is of type " + std::string(mStoredType.name()));
             
                 *std::static_pointer_cast<Type>(mStoredData) = data;
             }
