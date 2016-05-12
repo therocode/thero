@@ -27,6 +27,8 @@ class Optional
         {
             if(other.mValue)
                 mValue = std::make_shared<Type>(*other.mValue);
+            else
+                mValue.reset();
         }
 
         Optional(Optional& other):
@@ -44,6 +46,8 @@ class Optional
         {
             if(other.mValue)
                 mValue = std::make_shared<Type>(*other.mValue);
+            else
+                mValue.reset();
 
             return *this;
         }
