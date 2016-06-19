@@ -57,6 +57,11 @@ namespace th
                 return *this;
             }
 
+            operator bool() const
+            {
+                return mStoredData != nullptr;
+            }
+
             template<typename Type>
             Any(Type data) :
                 mStoredType(typeid(data))
