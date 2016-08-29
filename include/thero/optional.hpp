@@ -94,7 +94,7 @@ class Optional
             return mValue.get();
         }
 
-        bool isNull()
+        bool isNull() const
         {
             return !*this;
         }
@@ -127,4 +127,22 @@ class Optional
     private:
         std::shared_ptr<Type> mValue;
 };
+
+template <typename Type>
+bool operator==(const Optional<Type>& optional, const Type& value)
+{
+    if(!optional.isNull())
+        return *optional == value;
+    else
+        return false;
+}
+
+template <typename Type>
+bool operator==(const Type& value, const Optional<Type>& optional)
+{
+    if(!optional.isNull())
+        return *optional == value;
+    else
+        return false;
+}
 }

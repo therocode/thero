@@ -68,9 +68,9 @@ namespace th
             {
                 mStoredData = std::static_pointer_cast<void>(std::make_shared<Type>(std::move(data)));
             
-                mCopyFunction = [](std::shared_ptr<void> data)
+                mCopyFunction = [](std::shared_ptr<void> inData)
                 {
-                    std::shared_ptr<Type> toCopy = std::static_pointer_cast<Type>(data);
+                    std::shared_ptr<Type> toCopy = std::static_pointer_cast<Type>(inData);
                     std::shared_ptr<Type> copy = std::make_shared<Type>(*toCopy);
                     return std::static_pointer_cast<void>(copy);
                 };
