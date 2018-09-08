@@ -49,7 +49,7 @@ class PolymorphicWrapper
 
     PolymorphicWrapper& operator=(PolymorphicWrapper& other)
     {
-        return static_cast<const PolymorphicWrapper&>(other);
+        return *this = static_cast<const PolymorphicWrapper&>(other);
     }
 
     PolymorphicWrapper& operator=(PolymorphicWrapper&& other)
